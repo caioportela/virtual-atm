@@ -1,0 +1,20 @@
+{
+  "name": "virtual-atm",
+  "version": "0.0.0",
+  "description": "Simple solution to EBANX challenge",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "NODE_ENV=test mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caioportela/virtual-atm.git"
+  },
+  "author": "Caio Portela",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/caioportela/virtual-atm/issues"
+  },
+  "homepage": "https://github.com/caioportela/virtual-atm#readme"
+}
