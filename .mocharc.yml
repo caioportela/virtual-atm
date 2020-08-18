@@ -1,0 +1,14 @@
+color: true
+delay: false
+diff: true
+exit: true
+extension:
+  - 'js'
+
+recursive: true
+reporter: 'spec'
+require: 'mocha-clean'
+slow: 75
+sort: false
+timeout: 2000
+ui: 'bdd'
