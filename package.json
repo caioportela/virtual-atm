@@ -26,6 +26,8 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "sequelize": "^6.3.4",
+    "sqlite3": "^5.0.0",
     "winston": "^3.3.3"
   }
 }

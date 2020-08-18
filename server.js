@@ -8,6 +8,9 @@ const PORT = 3000;
 // Initialize logger
 const logger = require('./src/loaders/logger');
 
+// Initialize models
+require('./src/models');
+
 const app = express();
 
 app.use(bodyParser.json());
