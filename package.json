@@ -19,5 +19,8 @@
   "homepage": "https://github.com/caioportela/virtual-atm#readme",
   "devDependencies": {
     "eslint": "^7.7.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
