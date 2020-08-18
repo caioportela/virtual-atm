@@ -12,6 +12,9 @@ const app = express();
 
 app.use(bodyParser.json());
 
+// Initialize routes
+require('./src/routes')(app);
+
 app.listen(PORT, () => {
   logger.debug(`Running on http://localhost:${PORT}`);
 });
