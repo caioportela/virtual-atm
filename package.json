@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/caioportela/virtual-atm/issues"
   },
-  "homepage": "https://github.com/caioportela/virtual-atm#readme"
+  "homepage": "https://github.com/caioportela/virtual-atm#readme",
+  "devDependencies": {
+    "eslint": "^7.7.0"
+  }
 }
