@@ -7,7 +7,7 @@ const AccountController = {
   **/
   async reset(req, res) {
     await Account.truncate();
-    return res.status(200).send();
+    return res.ok();
   },
 };
 
