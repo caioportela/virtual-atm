@@ -2,7 +2,7 @@ const should = require('should/as-function');
 const logger = require('../../src/loaders/logger');
 logger.level = 'crit';
 
-describe('Server setup', () => {
+describe('Unit | Server setup', () => {
   it('Should not be exposed', () => {
     delete require.cache[require.resolve('../../server')];
     process.env.NODE_ENV = 'development';
