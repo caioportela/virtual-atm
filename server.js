@@ -8,11 +8,15 @@ const PORT = 3000;
 // Initialize logger
 const logger = require('./src/loaders/logger');
 
+// Initialize responses
+const responses = require('./src/loaders/responses');
+
 // Initialize models
 require('./src/models');
 
 const app = express();
 
+app.use(responses);
 app.use(bodyParser.json());
 
 // Initialize routes
