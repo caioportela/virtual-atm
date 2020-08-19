@@ -16,9 +16,22 @@ describe('Integration | Controller | Account Controller', () => {
       });
     });
 
-    it('Should fail without destination', (done) => {
+    it('Should fail without amount', (done) => {
       request.post('/event')
       .send({ type: 'deposit' })
+      .expect(400)
+      .end((err, res) => {
+        if(err) { return done(err); }
+
+        should(res.text).be.equal('Missing amount');
+
+        done();
+      });
+    });
+
+    it('Should fail to deposit without destination', (done) => {
+      request.post('/event')
+      .send({ type: 'deposit', amount: 20 })
       .expect(400)
       .end((err, res) => {
         if(err) { return done(err); }
@@ -29,14 +42,27 @@ describe('Integration | Controller | Account Controller', () => {
       });
     });
 
-    it('Should fail without amount', (done) => {
+    it('Should fail to withdraw without origin', (done) => {
       request.post('/event')
-      .send({ type: 'deposit', destination: '100' })
+      .send({ type: 'withdraw', amount: 140 })
       .expect(400)
       .end((err, res) => {
         if(err) { return done(err); }
 
-        should(res.text).be.equal('Missing amount');
+        should(res.text).be.equal('Missing origin');
+
+        done();
+      });
+    });
+
+    it('Should fail to withdraw from non-existing account', (done) => {
+      request.post('/event')
+      .send({ type: 'withdraw', origin: '200', amount: 140 })
+      .expect(404)
+      .end((err, res) => {
+        if(err) { return done(err); }
+
+        should(res.body).be.equal(0);
 
         done();
       });
@@ -71,6 +97,21 @@ describe('Integration | Controller | Account Controller', () => {
         done();
       });
     });
+
+    it('Withdraws from account', (done) => {
+      request.post('/event')
+      .send({ type: 'withdraw', origin: '100', amount: 5 })
+      .expect(201)
+      .end((err, res) => {
+        if(err) { return done(err); }
+
+        should.exist(res.body.origin);
+        should.exist(res.body.origin.balance);
+        should(res.body.origin.balance).be.equal(15);
+
+        done();
+      });
+    });
   });
 
   describe('GET /balance', () => {
@@ -90,7 +131,7 @@ describe('Integration | Controller | Account Controller', () => {
       .end((err, res) => {
         if(err) { return done(err); }
 
-        should(res.body).be.equal(20);
+        should(res.body).be.equal(15);
 
         done();
       });

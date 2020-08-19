@@ -16,10 +16,10 @@ const AccountController = {
 
     try {
       if(!type) { throw 'Missing type'; }
+      if(!amount) { throw 'Missing amount'; }
 
       if(type === 'deposit') {
         if(!destination) { throw 'Missing destination'; }
-        if(!amount) { throw 'Missing amount'; }
 
         const [account] = await Account.findOrCreate({
           where: { id: destination },
@@ -30,6 +30,23 @@ const AccountController = {
         await account.save();
 
         return res.created({ destination: account });
+      }
+
+      if(type === 'withdraw') {
+        if(!origin) { throw 'Missing origin'; }
+
+        const account = await Account.findOne({
+          where: { id: origin },
+        });
+
+        if(!account) {
+          return res.notFound();
+        }
+
+        account.balance -= parseInt(amount);
+        await account.save();
+
+        return res.created({ origin: account });
       }
     } catch(e) {
       logger.error(`AccountController :: event\n${e}`);
