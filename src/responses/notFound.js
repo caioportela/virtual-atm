@@ -6,7 +6,7 @@
 
 const logger = require('../loaders/logger');
 
-module.exports = function sendNotFound(data) {
+module.exports = function sendNotFound() {
   logger.debug('Sending 404 ("Not Found") response');
-  return this.res.status(404).send(data);
+  return this.res.status(404).json(0);
 };
