@@ -9,7 +9,8 @@ class Account extends Model {
       },
     },{
       sequelize,
-      tableName: 'account'
+      tableName: 'account',
+      timestamps: false,
     });
   }
 }
