@@ -9,6 +9,7 @@ const router = express.Router();
 const { AccountController } = require('./controllers');
 
 // Account Controller
+router.get('/balance', AccountController.getBalance);
 router.post('/event', AccountController.event);
 router.post('/reset', AccountController.reset);
 

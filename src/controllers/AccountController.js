@@ -36,6 +36,23 @@ const AccountController = {
       return res.badRequest(e);
     }
   },
+
+  async getBalance(req, res) {
+    const { account_id } = req.query;
+
+    try {
+      const account = await Account.findOne({
+        where: { id: account_id },
+      });
+
+      if(!account) { throw 'Account not found'; }
+
+      return res.ok(account.balance);
+    } catch(e) {
+      logger.error(`AccountController :: event\n${e}`);
+      return res.notFound();
+    }
+  },
 };
 
 module.exports = AccountController;

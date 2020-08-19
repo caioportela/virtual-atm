@@ -73,6 +73,30 @@ describe('Integration | Controller | Account Controller', () => {
     });
   });
 
+  describe('GET /balance', () => {
+    it('Should fail for non-existing account', (done) => {
+      request.get('/balance?account_id=1234').expect(404)
+      .end((err, res) => {
+        if(err) { return done(err); }
+
+        should(res.body).be.equal(0);
+
+        done();
+      });
+    });
+
+    it('Get balance for existing account', (done) => {
+      request.get('/balance?account_id=100').expect(200)
+      .end((err, res) => {
+        if(err) { return done(err); }
+
+        should(res.body).be.equal(20);
+
+        done();
+      });
+    });
+  });
+
   describe('POST /reset', () => {
     it('Should truncate all tables', (done) => {
       request.post('/reset').expect(200)
