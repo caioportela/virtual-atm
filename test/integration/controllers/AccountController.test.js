@@ -80,6 +80,45 @@ describe('Integration | Controller | Account Controller', () => {
       });
     });
 
+    it('Should fail to transfer without origin', (done) => {
+      request.post('/event')
+      .send({ type: 'transfer', amount: 140 })
+      .expect(400)
+      .end((err, res) => {
+        if(err) { return done(err); }
+
+        should(res.text).be.equal('Missing origin');
+
+        done();
+      });
+    });
+
+    it('Should fail to transfer without destination', (done) => {
+      request.post('/event')
+      .send({ type: 'transfer', origin: '2', amount: 140 })
+      .expect(400)
+      .end((err, res) => {
+        if(err) { return done(err); }
+
+        should(res.text).be.equal('Missing destination');
+
+        done();
+      });
+    });
+
+    it('Should fail to transfer from non-existing account', (done) => {
+      request.post('/event')
+      .send({ type: 'transfer', origin: '2', destination: '300', amount: 140 })
+      .expect(404)
+      .end((err, res) => {
+        if(err) { return done(err); }
+
+        should(res.body).be.equal(0);
+
+        done();
+      });
+    });
+
     it('Creates an account with initial balance', (done) => {
       request.post('/event')
       .send({ type: 'deposit', destination: '100', amount: 10 })
@@ -124,6 +163,28 @@ describe('Integration | Controller | Account Controller', () => {
         done();
       });
     });
+
+    it('Tranfers from existing account to new account', (done) => {
+      request.post('/event')
+      .send({
+        type: 'transfer',
+        origin: '100',
+        destination: '300',
+        amount: 10
+      })
+      .expect(201)
+      .end((err, res) => {
+        if(err) { return done(err); }
+
+        should.exist(res.body.origin);
+        should(res.body.origin.balance).be.equal(5);
+
+        should.exist(res.body.destination);
+        should(res.body.destination.balance).be.equal(10);
+
+        done();
+      });
+    });
   });
 
   describe('GET /balance', () => {
@@ -143,7 +204,7 @@ describe('Integration | Controller | Account Controller', () => {
       .end((err, res) => {
         if(err) { return done(err); }
 
-        should(res.body).be.equal(15);
+        should(res.body).be.equal(5);
 
         done();
       });

@@ -49,6 +49,34 @@ const AccountController = {
         return res.created({ origin: account });
       }
 
+      if(type === 'transfer') {
+        if(!origin) { throw 'Missing origin'; }
+        if(!destination) { throw 'Missing destination'; }
+
+        const from = await Account.findOne({
+          where: { id: origin },
+        });
+
+        if(!from) {
+          return res.notFound();
+        }
+
+        const [to] = await Account.findOrCreate({
+          where: { id: destination },
+          defaults: { id: destination },
+        });
+
+        from.balance -= parseInt(amount);
+        to.balance += parseInt(amount);
+
+        await Promise.all([
+          from.save(),
+          to.save()
+        ]);
+
+        return res.created({ origin: from, destination: to });
+      }
+
       throw 'Invalid type';
     } catch(e) {
       logger.error(`AccountController :: event\n${e}`);
