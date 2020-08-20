@@ -48,6 +48,8 @@ const AccountController = {
 
         return res.created({ origin: account });
       }
+
+      throw 'Invalid type';
     } catch(e) {
       logger.error(`AccountController :: event\n${e}`);
       return res.badRequest(e);

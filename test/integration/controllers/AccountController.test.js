@@ -16,6 +16,18 @@ describe('Integration | Controller | Account Controller', () => {
       });
     });
 
+    it('Should fail with invalid type', (done) => {
+      request.post('/event').send({ type: 'invalid', amount: 10 })
+      .expect(400)
+      .end((err, res) => {
+        if(err) { return done(err); }
+
+        should(res.text).be.equal('Invalid type');
+
+        done();
+      });
+    });
+
     it('Should fail without amount', (done) => {
       request.post('/event')
       .send({ type: 'deposit' })
