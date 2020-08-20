@@ -7,6 +7,10 @@ class Account extends Model {
         type: DataTypes.INTEGER,
         defaultValue: 0
       },
+      id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+      }
     },{
       sequelize,
       tableName: 'account',
